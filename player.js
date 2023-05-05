@@ -1,10 +1,18 @@
 class Player extends GameObject{
-    constructor(x, y, width, height){
-        super(x, y, width, height);
+    constructor(x, y, width, height, color = 'green', imageUrl){
+        super(x, y, width, height, color, imageUrl);
         this.speed = 10;
         this.controller = {};
         this.projectiles = [];
         this.attackCoolDown = 10;
+        this.healthPoints = 5;
+    }
+
+    collision(){
+        this.healthPoints--;
+        if(this.healthPoints <= 0){
+            this.isAlive = false;
+        }
     }
 
     draw(ctx){
@@ -65,8 +73,9 @@ class Player extends GameObject{
 
     baseAttack(){
         if (this.attackCoolDown <= 0) {
-            let projectile = new Projectile(this.x + ((this.width/2)-5), this.y, 10, 10);
-            this.projectiles.push(projectile);
+            let projectile = new Projectile(this.x , this.y, 5, 20);
+            let projectile2 = new Projectile(this.x + this.width -5 , this.y, 5, 20);
+            this.projectiles.push(projectile, projectile2);
             this.attackCoolDown = 10;
         }
         
